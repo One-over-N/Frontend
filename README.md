@@ -1,11 +1,2 @@
-
-  # User dashboard
-
-  This is a code bundle for User dashboard. The original project is available at https://www.figma.com/design/hAad5N3a0PcTJAaC6KopoT/User-dashboard.
-
-  ## Running the code
-
-  Run `npm i` to install the dependencies.
-
-  Run `npm run dev` to start the development server.
-  
+# Frontend
+26-1 데이터베이스 팀 프로젝트 엔분의일 프론트엔드
