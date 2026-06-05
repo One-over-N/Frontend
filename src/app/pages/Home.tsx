@@ -2,7 +2,7 @@ import { Box, Typography, Grid, Card, CardContent, CardActionArea } from "@mui/m
 import { ChevronRight as ChevronRightIcon } from "@mui/icons-material";
 import { Link } from "react-router";
 import { useState, useEffect } from "react";
-import { setToken, API_URL } from "../utils/auth";
+import { API_URL } from "../utils/auth";
 
 interface BackendService {
   id: number;
@@ -26,7 +26,7 @@ export function Home() {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetch(`${API_URL}/api/otts") 
+    fetch(`${API_URL}/api/otts`) 
       .then((res) => {
         if (!res.ok) throw new Error("네트워크 응답에 문제가 있습니다.");
         return res.json();
@@ -84,7 +84,7 @@ export function Home() {
         {services.map((service, index) => {
           const uniqueKey = service.id || `ott-fallback-${index}`;
           return (
-            <Grid key={uniqueKey} size={{ xs: 12, sm: 6, md: 4 }}>
+            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
               <Card
                 elevation={0}
                 sx={{

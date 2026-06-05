@@ -4,7 +4,7 @@ import { Notifications as NotificationsIcon, Logout as LogoutIcon } from "@mui/i
 import { useState, useEffect } from "react";
 import { NotificationPanel } from "./NotificationPanel";
 import { Logo } from "./Logo";
-import { getToken, removeToken, authHeaders } from "../utils/auth";
+import { getToken, removeToken, authHeaders, API_URL } from "../utils/auth";
 
 export function Layout() {
   const [notificationOpen, setNotificationOpen] = useState(false);
@@ -22,7 +22,7 @@ export function Layout() {
 
   useEffect(() => {
     if (!getToken() || isAuthPage) return;
-    fetch(`${API_URL}/api/notifications/unread-count", { headers: authHeaders() })
+    fetch(`${API_URL}/api/notifications/unread-count`, { headers: authHeaders() })
       .then(r => r.json())
       .then(d => setUnreadCount(d.result ?? 0))
       .catch(() => {});

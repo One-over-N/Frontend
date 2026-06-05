@@ -1,9 +1,8 @@
 import { Box, Typography, Card, CardContent, Grid, Button } from "@mui/material";
 import { TrendingDown as TrendingDownIcon, CheckCircle as CheckCircleIcon, Schedule as ScheduleIcon } from "@mui/icons-material";
 import { useState, useEffect } from "react";
-import { getToken, authHeaders } from "../utils/auth";
+import { getToken, authHeaders, API_URL } from "../utils/auth";
 import { useNavigate } from "react-router";
-import { setToken, API_URL } from "../utils/auth";
 
 function getDday(targetDate: string): number {
   const today = new Date();
@@ -25,30 +24,31 @@ export function PaymentManagement() {
   useEffect(() => {
     if (!getToken()) { navigate("/login"); return; }
 
-   fetch(`${API_URL}/api/settlements/current", { headers: authHeaders() })
-  .then(r => r.json())
-  .then(d => {
-    const raw = d.result;
-    if (Array.isArray(raw)) setPayments(raw);
-    else if (raw?.content && Array.isArray(raw.content)) setPayments(raw.content);
-    else setPayments([]);
-  })
-  .catch(() => setPayments([]));
+    fetch(`${API_URL}/api/settlements/current`, { headers: authHeaders() })
+      .then(r => r.json())
+      .then(d => {
+  const raw = d.result;
+  if (Array.isArray(raw)) setPayments(raw);
+  else if (raw?.dataList && Array.isArray(raw.dataList)) setPayments(raw.dataList);
+  else if (raw?.content && Array.isArray(raw.content)) setPayments(raw.content);
+  else setPayments([]);
+})
+      .catch(() => setPayments([]));
 
-fetch(`${API_URL}/api/settlements/summary", { headers: authHeaders() })
-  .then(r => r.json())
-  .then(d => setSummary(d.result ?? null))
-  .catch(() => {});
+    fetch(`${API_URL}/api/settlements/summary`, { headers: authHeaders() })
+      .then(r => r.json())
+      .then(d => setSummary(d.result ?? null))
+      .catch(() => {});
 
-fetch(`${API_URL}/api/settlements/history", { headers: authHeaders() })
-  .then(r => r.json())
-  .then(d => {
-    const raw = d.result;
-    if (Array.isArray(raw)) setHistory(raw);
-    else if (raw?.content && Array.isArray(raw.content)) setHistory(raw.content);
-    else setHistory([]);
-  })
-  .catch(() => setHistory([]));
+    fetch(`${API_URL}/api/settlements/history`, { headers: authHeaders() })
+      .then(r => r.json())
+      .then(d => {
+        const raw = d.result;
+        if (Array.isArray(raw)) setHistory(raw);
+        else if (raw?.content && Array.isArray(raw.content)) setHistory(raw.content);
+        else setHistory([]);
+      })
+      .catch(() => setHistory([]));
   }, []);
 
   const handleSettle = async (memberPaymentId: number) => {

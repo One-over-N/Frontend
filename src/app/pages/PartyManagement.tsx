@@ -33,9 +33,26 @@ export function PartyManagement() {
   useEffect(() => {
     if (!getToken()) { navigate("/login"); return; }
     fetch(`${API_URL}/api/ott-service/parties/my`, { headers: authHeaders() })
-      .then(r => r.json()).then(d => setMyParties(d.result ?? []));
+      .then(r => r.json())
+      .then(d => {
+        const raw = d.result;
+        if (Array.isArray(raw)) setMyParties(raw);
+        else if (raw?.dataList && Array.isArray(raw.dataList)) setMyParties(raw.dataList);
+        else if (raw?.content && Array.isArray(raw.content)) setMyParties(raw.content);
+        else setMyParties([]);
+      })
+      .catch(() => setMyParties([]));
+
     fetch(`${API_URL}/api/ott-service/parties/joined`, { headers: authHeaders() })
-      .then(r => r.json()).then(d => setJoinedParties(d.result ?? []));
+      .then(r => r.json())
+      .then(d => {
+        const raw = d.result;
+        if (Array.isArray(raw)) setJoinedParties(raw);
+        else if (raw?.dataList && Array.isArray(raw.dataList)) setJoinedParties(raw.dataList);
+        else if (raw?.content && Array.isArray(raw.content)) setJoinedParties(raw.content);
+        else setJoinedParties([]);
+      })
+      .catch(() => setJoinedParties([]));
   }, [navigate]);
 
   const loadPartyDetail = async (partyId: number) => {
@@ -69,7 +86,7 @@ export function PartyManagement() {
           {myParties.length === 0 ? (
             <Typography sx={{ p: 3, color: "text.secondary" }}>만든 파티가 없습니다.</Typography>
           ) : myParties.map((party: any) => (
-            <Grid size={{ xs: 12, md: 6 }}>
+            <Grid key={party.partyId} size={{ xs: 12, md: 6 }}>
               <Card elevation={0} sx={{ border: "2px solid #F3F4F6" }}>
                 <CardContent sx={{ p: 3 }}>
                   <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", mb: 3 }}>
@@ -130,7 +147,7 @@ export function PartyManagement() {
           {joinedParties.length === 0 ? (
             <Typography sx={{ p: 3, color: "text.secondary" }}>참여 중인 파티가 없습니다.</Typography>
           ) : joinedParties.map((party: any) => (
-            <Grid size={{ xs: 12, md: 6 }}>
+            <Grid key={party.partyId} size={{ xs: 12, md: 6 }}>
               <Card elevation={0} sx={{ border: "2px solid #F3F4F6" }}>
                 <CardContent sx={{ p: 3 }}>
                   <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", mb: 3 }}>
