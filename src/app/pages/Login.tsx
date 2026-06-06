@@ -23,7 +23,7 @@ export function Login() {
         return;
       }
       setToken(data.result.accessToken);
-      navigate("/");
+      navigate("/home");
     } catch (err) {
       alert("서버 오류");
     }

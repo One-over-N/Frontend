@@ -41,14 +41,15 @@ export function PaymentManagement() {
       .catch(() => {});
 
     fetch(`${API_URL}/api/settlements/history`, { headers: authHeaders() })
-      .then(r => r.json())
-      .then(d => {
-        const raw = d.result;
-        if (Array.isArray(raw)) setHistory(raw);
-        else if (raw?.content && Array.isArray(raw.content)) setHistory(raw.content);
-        else setHistory([]);
-      })
-      .catch(() => setHistory([]));
+  .then(r => r.json())
+  .then(d => {
+    const raw = d.result;
+    if (Array.isArray(raw)) setHistory(raw);
+    else if (raw?.dataList && Array.isArray(raw.dataList)) setHistory(raw.dataList);
+    else if (raw?.content && Array.isArray(raw.content)) setHistory(raw.content);
+    else setHistory([]);
+  })
+  .catch(() => setHistory([]));
   }, []);
 
   const handleSettle = async (memberPaymentId: number) => {
