@@ -36,7 +36,7 @@ export function Home() {
           const mapped = data.result.map((service: BackendService) => ({
             id: service.id,
             name: service.serviceName || "OTT 서비스",
-            logo: service.imageUrl || "🎬",
+            logo: service.imageUrl ? `${API_URL}${service.imageUrl}` : "🎬",
             color: getColorByName(service.serviceName || ""),
           }));
           setServices(mapped);
