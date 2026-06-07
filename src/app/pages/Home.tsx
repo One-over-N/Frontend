@@ -115,7 +115,15 @@ export function Home() {
                             flexShrink: 0,
                           }}
                         >
-                          {service.logo}
+                          {service.logo && (service.logo.includes("/") || service.logo.includes(".")) ? (
+                              <img
+                                  src={service.logo}
+                                  alt={service.name}
+                                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                              />
+                          ) : (
+                              <span style={{ fontSize: "1.5rem" }}>{service.logo}</span>
+                          )}
                         </Box>
                         <Box>
                           <Typography variant="body1" sx={{ fontWeight: 700, mb: 0.5 }}>
