@@ -60,13 +60,17 @@ export function OTTDetail() {
           const otts = ottsData.result ?? [];
           const plans = plansData.result ?? [];
           const parties = partiesData.result ?? [];
-          const currentOtt = otts.find((o: any) => Number(o.id) === currentId);
+
+          const currentOtt = otts.find((o: any) => Number(o.id) === Number(currentId));
+
 
           setService({
             name: currentOtt?.serviceName ?? ottMeta.name,
             color: getColorByName(currentOtt?.serviceName ?? ottMeta.name),
-            // Home.tsx와 동일하게 imageUrl이 있으면 API_URL을 붙이고, 없으면 기본 로고 이모지 사용
-            logo: currentOtt?.imageUrl ? `${API_URL}${currentOtt.imageUrl}` : ottMeta.logo,
+            // currentOtt가 정상적으로 존재하고, 내부에 imageUrl이 있는지 검증
+            logo: currentOtt && currentOtt.imageUrl
+                ? `${API_URL}${currentOtt.imageUrl}`
+                : ottMeta.logo,
             plans: plans.map((plan: any) => ({
               id: plan.id,
               name: plan.planName,
