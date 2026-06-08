@@ -130,7 +130,7 @@ export function PartyManagement() {
           {joinedParties.length === 0 ? (
             <Typography sx={{ p: 3, color: "text.secondary" }}>참여 중인 파티가 없습니다.</Typography>
           ) : joinedParties.map((party: any) => (
-            <Grid size={{ xs: 12, md: 6 }}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Card elevation={0} sx={{ border: "2px solid #F3F4F6" }}>
                 <CardContent sx={{ p: 3 }}>
                   <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", mb: 3 }}>
